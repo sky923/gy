@@ -1,0 +1,7 @@
+#ifndef __config_h__
+#define __config_h__
+
+#define GY_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define GY_VERSION_MINOR @PROJECT_VERSION_MINOR@
+
+#endif

@@ -34,6 +34,7 @@ file(
 	"${PROJECT_NAME}/*.cpp"
 	"${PROJECT_NAME}/*.m"
 	"${PROJECT_NAME}/*.mm"
+	"${PROJECT_NAME}/*.inl"
 )
 
 # add subdirectory

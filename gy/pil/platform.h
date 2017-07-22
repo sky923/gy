@@ -1,5 +1,5 @@
-#ifndef __pil_platform_h__
-#define __pil_platform_h__
+#ifndef __gy_pil_platform_h__
+#define __gy_pil_platform_h__
 
 namespace gy
 {

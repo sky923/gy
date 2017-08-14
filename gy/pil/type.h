@@ -58,4 +58,7 @@ using namespace gy::type;
 //	using experimental::optional;
 //}
 
+struct identifier_t { };
+struct null_t { };
+
 #endif

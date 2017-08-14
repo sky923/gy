@@ -1,9 +1,15 @@
 #include "object.h"
 
-GYObjectBase::GYObjectBase()
+
+struct SCounter
+{
+
+};
+
+GObjectBase::GObjectBase()
 {
 }
 
-GYObjectBase::~GYObjectBase()
+GObjectBase::~GObjectBase()
 {
 }

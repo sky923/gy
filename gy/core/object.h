@@ -1,12 +1,15 @@
 #ifndef __gy_core_object_h__
 #define __gy_core_object_h__
 
-class GYObjectBase
+#include "../pil/type.h"
+#include <memory>
+
+class GObjectBase
 {
 protected:
-	GYObjectBase();
+	GObjectBase();
 public:
-	virtual ~GYObjectBase();
+	virtual ~GObjectBase();
 };
 
 #endif

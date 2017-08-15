@@ -14,7 +14,6 @@ private:
 	
 	void test_unicode()
 	{
-		std::cout.imbue(std::locale(""));
 		c8_t test[] = _8("c8_t = 안A녕하세요B!!!\U0001F609\U0010FFFF🤖");
 		std::cout << test << std::endl;
 		

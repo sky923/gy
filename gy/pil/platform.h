@@ -137,12 +137,13 @@ namespace gy
 #elif defined (_MSC_VER)
 //---------+---------+---------+---------+---------+---------+---------+---------+
 #	define GY_COMPILER_MSVC_IS_ENABLED 1
+#	define GY_COMPILER_ID ECompiler::MSVC
 	//@todo:
 #	define GY_COMPILER_IS_SUPPORTED_LARGE_NUMBER 1
 	//@todo:
-#	define GY_COMPILER_MAJOR_VERSION (_MSC_FULL_VER / 10000000)
-#	define GY_COMPILER_MINOR_VERSION (((_MSC_FULL_VER - (GY_COMPILER_MAJOR_VERSION * 10000000)) / 100000))
-#	define GY_COMPILER_PATCH_VERSION (_MSC_FULL_VER - (GY_COMPILER_MAJOR_VERSION + GY_COMPILER_MINOR_VERSION))
+#	define GY_COMPILER_MAJOR_VERSION (int)(_MSC_FULL_VER / 10000000)
+#	define GY_COMPILER_MINOR_VERSION (int)(((_MSC_FULL_VER - (GY_COMPILER_MAJOR_VERSION * 10000000)) / 100000))
+#	define GY_COMPILER_PATCH_VERSION (int)(_MSC_FULL_VER - ((GY_COMPILER_MAJOR_VERSION * 10000000) + (GY_COMPILER_MINOR_VERSION * 100000)))
 //---------+---------+---------+---------+---------+---------+---------+---------+
 #elif defined (__GNUC__)
 //---------+---------+---------+---------+---------+---------+---------+---------+

@@ -5,13 +5,13 @@
 #include <string>
 
 
-//#if GY_OS_WINDOWS_IS_ENABLED && GY_COMPILER_MSVC_IS_ENABLED
-//typedef wchar_t c16_t;
-//typedef std::wstring str16_t;
-//#else
+#if GY_OS_WINDOWS_IS_ENABLED && GY_COMPILER_MSVC_IS_ENABLED
+typedef wchar_t c16_t;
+typedef std::wstring str16_t;
+#else
 typedef char16_t c16_t;
 typedef std::u16string str16_t;
-//#endif
+#endif
 //typedef std::char8_t c8_t;
 //typedef std::u8string str8_t;
 typedef char c8_t;
@@ -22,24 +22,30 @@ namespace std
 	//@ref: http://stackoverflow.com/questions/32055357/visual-studio-c-2015-stdcodecvt-with-char16-t-or-char32-t
 	//@ref: https://social.msdn.microsoft.com/Forums/en-US/8f40dcd8-c67f-4eba-9134-a19b9178e481/vs-2015-rc-linker-stdcodecvt-error?forum=vcgeneral
 	
-	std::u16string to_u16string(int __val);
-	std::u16string to_u16string(unsigned __val);
-	std::u16string to_u16string(long __val);
-	std::u16string to_u16string(unsigned long __val);
-	std::u16string to_u16string(long long __val);
-	std::u16string to_u16string(unsigned long long __val);
-	std::u16string to_u16string(float __val);
-	std::u16string to_u16string(double __val);
-	std::u16string to_u16string(long double __val);
+	str16_t to_u16string(int __val);
+	str16_t to_u16string(unsigned __val);
+	str16_t to_u16string(long __val);
+	str16_t to_u16string(unsigned long __val);
+	str16_t to_u16string(long long __val);
+	str16_t to_u16string(unsigned long long __val);
+	str16_t to_u16string(float __val);
+	str16_t to_u16string(double __val);
+	str16_t to_u16string(long double __val);
 
 	ostream& operator << (ostream& os, const c16_t* c16);
-	ostream& operator << (ostream& os, const u16string& str16);
+	ostream& operator << (ostream& os, const str16_t& str16);
 }
 
-#define str16of(t) u ## #t
+#if GY_OS_WINDOWS_IS_ENABLED && GY_COMPILER_MSVC_IS_ENABLED
+#	define str16of(t) L ## #t
+#	define _16(t) L ## t
+#	define make_str16(t) str16_t(L ## t)
+#else
+#	define str16of(t) u ## #t
+#	define _16(t) u ## t
+#	define make_str16(t) str16_t(u ## t)
+#endif
 #define str16cond(t, cond) (cond ? str16_t(t) : str16_t())
-#define _16(t) u ## t
-#define make_str16(t) str16_t(u ## t)
 #define to_str16(t) std::to_u16string(t)
 
 #define str8of(t) u8 ## #t

@@ -19,7 +19,7 @@
 //-------+---------+---------+---------+---------+---------+---------+---------+
 #	include <clocale>
 #	if defined (GY_OS_WINDOWS_IS_ENABLED)
-#		define GY_ENABLED_UNICODE_SUPPORTED_CONSOLE std::cout.imbue(std::locale("")); std::wcout.imbue(std::locale(""))
+#		define GY_ENABLED_UNICODE_SUPPORTED_CONSOLE 0//std::cout.imbue(std::locale("")); std::wcout.imbue(std::locale(""))
 #	else
 #		define GY_ENABLED_UNICODE_SUPPORTED_CONSOLE 0
 #	endif // defined (GY_ENABLED_OS_WINDESKTOP)

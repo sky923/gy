@@ -9,7 +9,7 @@
 class GObjectBase
 {
 private:
-	std::map<str8_t, std::shared_ptr<GObjectBase>> members;
+	//std::map<str8_t, std::shared_ptr<GObjectBase>> members;
 	//@todo:
 protected:
 	GObjectBase();

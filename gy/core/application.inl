@@ -4,7 +4,7 @@ result_t setApplication(int argc, _ARG_TYPE argv)
 	//GApplication::statusInitializer();
 
 	auto app = std::make_shared<_APP_TYPE>();
-	if (false == dynamic_cast<GApplication *>(app.get())) { return GY_FAIL; }
+	if (!std::dynamic_pointer_cast<GApplication>(app)) { return GY_FAIL; }
 
 	//app->parsingArgument(argc, argv);
 

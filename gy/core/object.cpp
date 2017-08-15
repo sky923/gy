@@ -1,9 +1,9 @@
 #include "object.h"
 
 
-struct SCounter
+struct SIdCounter
 {
-
+	
 };
 
 GObjectBase::GObjectBase()

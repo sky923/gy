@@ -1,5 +1,4 @@
 #include "string.h"
-//#include "sDefinition.h"
 
 #if GY_OS_WINDOWS_IS_ENABLED && GY_COMPILER_MSVC_IS_ENABLED
 #include <Windows.h>

@@ -1,20 +1,18 @@
 #ifndef __gy_core_object_h__
 #define __gy_core_object_h__
 
-#include "../pil/type.h"
-#include <map>
-#include <vector>
-#include <memory>
+#include "object_base.h"
 
-class GObjectBase
+class GObject : public GObjectBase
 {
-private:
-	//std::map<str8_t, std::shared_ptr<GObjectBase>> members;
-	//@todo:
-protected:
-	GObjectBase();
 public:
-	virtual ~GObjectBase();
+	struct SContext : public GObjectBase::SContext
+	{
+		bool bIsInitialized;
+		bool bIsFinalized;
+	};
+private:
+	SContext Context;
 };
 
 #endif

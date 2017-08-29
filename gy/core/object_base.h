@@ -3,43 +3,35 @@
 
 #include "../pil/type.h"
 #include "../pil/string.h"
-#include <map>
-#include <vector>
-#include <memory>
+#include <functional>
 
 class GObjectBase
 {
-public:
-	struct SContext
-	{
-		identity_t Id;
-		str8_t IdAsString;
-		str8_t ClassName;
-		bool bIsDynamicAllocated;
-		bool bIsReservedDestruction;
-	};
 private:
-	SContext Context;
+	identity_t Id;
+	str8_t IdAsString;
+	str8_t ClassName;
+	bool bIsDynamicAllocated;
+	bool bIsReservedDestruction;
 protected:
 	GObjectBase();
 public:
 	virtual ~GObjectBase();
+	void destroy();
+	void immediatelyDestroy();
 public:
 	void *operator new (size_t size);
 	void operator delete (void* ptr);
-private:
-	std::vector<std::function<void(f_t)>> tickFunctions;
 protected:
-	void addTickFunction(const std::function<void(f_t)>& tickFunction);
-	void removeTickFunction(size_t index);
-private:
-	void _tick(f_t deltaSeconds);
+	GObjectBase* findObjectBase(const std::function<bool(GObjectBase*)>& finder);
+	GObjectBase* getObjectBase(identity_t Id);
 public:
 	identity_t getId() const;
 	str8_t getIdAsString() const;
 	str8_t getClassName() const;
 	bool IsDynamicAllocated() const;
 	bool IsReservedDestruction() const;
+	bool IsEnabledTick() const;
 };
 
 #endif

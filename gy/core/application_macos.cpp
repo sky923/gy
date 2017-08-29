@@ -6,7 +6,11 @@ result_t GApplication::onPreInitialize() { return GY_SUCCESS; }
 result_t GApplication::onInitialize() { return GY_SUCCESS; }
 result_t GApplication::onPostInitialize() { return GY_SUCCESS; }
 
-result_t GApplication::onExecute() { return GY_SUCCESS; }
+result_t GApplication::onExecute()
+{
+	getObjectBase(getId());
+	return GY_SUCCESS;
+}
 
 result_t GApplication::onPreFinalize() { return GY_SUCCESS; }
 result_t GApplication::onFinalize() { return GY_SUCCESS; }

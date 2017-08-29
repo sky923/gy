@@ -2,7 +2,8 @@
 #define __gy_pil_type_h__
 
 //@note: type naming rules
-// G* : class
+// G* : class of GObject based
+// C* : normal class
 // S* : struct
 // E* : enum class (not an enum)
 // k* : const type

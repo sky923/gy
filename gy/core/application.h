@@ -4,7 +4,7 @@
 #include <memory>
 #include "application_entrypoint.h"
 
-class GApplication
+class GApplication : public GObject
 {
 protected:
 	GApplication();

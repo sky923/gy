@@ -5,14 +5,17 @@
 
 class GObject : public GObjectBase
 {
+protected:
+	bool bIsInitialized;
+	bool bIsFinalized;
+	bool bIsEnabledTick;
+protected:
+	GObject();
 public:
-	struct SContext : public GObjectBase::SContext
-	{
-		bool bIsInitialized;
-		bool bIsFinalized;
-	};
-private:
-	SContext Context;
+	virtual ~GObject();
+public:
+	bool IsEnabledTick() const;
+	void SetEnabledTick(bool bEnabledTick);
 };
 
 #endif

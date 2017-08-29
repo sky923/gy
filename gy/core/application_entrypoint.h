@@ -2,6 +2,7 @@
 #define __gy_core_application_support_h__
 
 #include "../pil/type.h"
+#include "object.h"
 
 #if GY_OS_WIN_DESKTOP_IS_ENABLED || GY_OS_WIN_PHONE_IS_ENABLED
 //-------+---------+---------+---------+---------+---------+---------+---------+

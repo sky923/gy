@@ -1,4 +1,5 @@
 #include "application.h"
+#include <cassert>
 
 namespace gy
 {
@@ -9,7 +10,7 @@ result_t startApplication(std::shared_ptr<GApplication>&& newApplicaion)
 {
 	gy::appInstance = newApplicaion;
 
-	if (gy::appInstance)
+	if (gy::appInstance && gy::appInstance->IsEnabledTick())
 	{
 		return gy::appInstance->execute();
 	}
@@ -19,6 +20,9 @@ result_t startApplication(std::shared_ptr<GApplication>&& newApplicaion)
 
 GApplication::GApplication()
 {
+	SetEnabledTick(true);
+	
+	assert(nullptr == gy::appInstance && "Already exist an GApplication instance.");
 }
 
 GApplication::~GApplication()

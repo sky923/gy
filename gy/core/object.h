@@ -9,6 +9,7 @@ protected:
 	bool bIsInitialized;
 	bool bIsFinalized;
 	bool bIsEnabledTick;
+	bool bIsActivated;
 protected:
 	GObject();
 public:
@@ -16,6 +17,10 @@ public:
 public:
 	bool IsEnabledTick() const;
 	void SetEnabledTick(bool bEnabledTick);
+	bool IsActivated() const;
+private:
+	void initialize();
+
 };
 
 #endif

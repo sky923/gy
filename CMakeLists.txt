@@ -62,3 +62,10 @@ target_include_directories(
 	# Headers used from installed location:
 	# "$<INSTALL_INTERFACE:${PROJECT_NAME}>"     
 )
+
+# https://stackoverflow.com/questions/14148374/how-do-you-set-properties-in-a-vcproj-file-with-cmake
+if (MSVC)
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /UMBCS /D_UNICODE /DUNICODE /utf-8")
+	SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+	SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+endif()

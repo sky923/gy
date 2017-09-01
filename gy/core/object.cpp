@@ -4,6 +4,7 @@ GObject::GObject()
 : bIsInitialized(false)
 , bIsFinalized(false)
 , bIsEnabledTick(false)
+, bIsActivated(false)
 {
 }
 
@@ -18,4 +19,8 @@ bool GObject::IsEnabledTick() const
 void GObject::SetEnabledTick(bool bEnabledTick)
 {
 	bIsEnabledTick = bEnabledTick;
+}
+bool GObject::IsActivated() const
+{
+	return bIsActivated;
 }

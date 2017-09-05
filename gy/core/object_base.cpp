@@ -36,17 +36,17 @@ protected:
 	}
 };
 
-class CObjectReferenceContainer
+class CObjectBaseReferenceContainer
 {
 	friend class GObjectBase;
 	
 private:
-	CObjectReferenceContainer() {}
+	CObjectBaseReferenceContainer() {}
 public:
-	virtual ~CObjectReferenceContainer() {}
-	static CObjectReferenceContainer& get()
+	virtual ~CObjectBaseReferenceContainer() {}
+	static CObjectBaseReferenceContainer& get()
 	{
-		static CObjectReferenceContainer instance;
+		static CObjectBaseReferenceContainer instance;
 		return instance;
 	}
 protected:
@@ -62,7 +62,7 @@ GObjectBase::GObjectBase()
 , bIsDynamicAllocated(false)
 , bIsReservedDestruction(false)
 {
-	auto& refContainer = CObjectReferenceContainer::get();
+	auto& refContainer = CObjectBaseReferenceContainer::get();
 	
 	auto convId = (identity_t)(static_cast<GObjectBase*>(this));
 	auto itr = refContainer.dynamicAllocatedObjectMapByPointer.find(convId);
@@ -97,7 +97,7 @@ void GObjectBase::destroy()
 }
 void GObjectBase::immediatelyDestroy()
 {
-	auto& refContainer = CObjectReferenceContainer::get();
+	auto& refContainer = CObjectBaseReferenceContainer::get();
 	
 	if (bIsDynamicAllocated)
 	{
@@ -129,7 +129,7 @@ void *GObjectBase::operator new(size_t size)
 	
 	identity_t newId = CObjectIdGenerator::get().makeNewId();
 	
-	auto& refContainer = CObjectReferenceContainer::get();
+	auto& refContainer = CObjectBaseReferenceContainer::get();
 	refContainer.dynamicAllocatedObjectMapById[newId] = newObject;
 	refContainer.dynamicAllocatedObjectMapByPointer[(identity_t)(newObject)] = newId;
 	refContainer.objectVector.push_back(newObject);
@@ -153,7 +153,7 @@ void GObjectBase::operator delete(void* ptr)
 
 GObjectBase* GObjectBase::findObjectBase(const std::function<bool(GObjectBase*)>& finder)
 {
-	auto& refContainer = CObjectReferenceContainer::get();
+	auto& refContainer = CObjectBaseReferenceContainer::get();
 	
 	for (auto& curObject : refContainer.objectVector)
 	{
@@ -166,7 +166,7 @@ GObjectBase* GObjectBase::findObjectBase(const std::function<bool(GObjectBase*)>
 
 GObjectBase* GObjectBase::getObjectBase(identity_t inId)
 {
-	auto& refContainer = CObjectReferenceContainer::get();
+	auto& refContainer = CObjectBaseReferenceContainer::get();
 	
 	auto itr = refContainer.objectMapById.find(inId);
 	if (itr == refContainer.objectMapById.end())

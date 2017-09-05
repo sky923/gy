@@ -21,12 +21,14 @@ public:
 private:
 	result_t initialize();
 protected:
+	static void processInitialization();
 	virtual result_t onPreInitialize();
 	virtual result_t onInitialize();
 	virtual result_t onPostInitialize();
 private:
 	result_t finalize();
 protected:
+	static void processFinalization();
 	virtual result_t onPreFinalize();
 	virtual result_t onFinalize();
 	virtual result_t onPostFinalize();

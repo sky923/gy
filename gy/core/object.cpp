@@ -1,4 +1,23 @@
 #include "object.h"
+#include <list>
+
+class CObjectReferenceContainer
+{
+	friend class GObject;
+
+private:
+	CObjectReferenceContainer() {}
+public:
+	virtual ~CObjectReferenceContainer() {}
+	static CObjectReferenceContainer& get()
+	{
+		static CObjectReferenceContainer instance;
+		return instance;
+	}
+protected:
+	std::list<GObject*> objectForInitializingVector;
+	std::list<GObject*> objectForFinalizingVector;
+};
 
 GObject::GObject()
 : bIsInitialized(false)
@@ -6,10 +25,17 @@ GObject::GObject()
 , bIsEnabledTick(false)
 , bIsActivated(false)
 {
+	auto& refContainer = CObjectReferenceContainer::get();
+	refContainer.objectForInitializingVector.push_back(this);
 }
 
 GObject::~GObject()
 {
+	if (bIsInitialized && !bIsFinalized)
+	{
+		finalize();
+		destroy();
+	}
 }
 
 bool GObject::IsEnabledTick() const
@@ -51,6 +77,14 @@ result_t GObject::initialize()
 	return result;
 }
 
+void GObject::processInitialization()
+{
+	findObjectBase([](GObjectBase* ObjectBase)
+	{
+		return false;
+	});
+}
+
 result_t GObject::onPreInitialize() { return GY_SUCCESS; }
 result_t GObject::onInitialize() { return GY_SUCCESS; }
 result_t GObject::onPostInitialize() { return GY_SUCCESS; }
@@ -78,6 +112,10 @@ result_t GObject::finalize()
 	}
 
 	return result;
+}
+
+void GObject::processFinalization()
+{
 }
 
 result_t GObject::onPreFinalize() { return GY_SUCCESS; }

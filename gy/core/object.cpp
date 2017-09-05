@@ -24,3 +24,11 @@ bool GObject::IsActivated() const
 {
 	return bIsActivated;
 }
+
+void GObject::initialize()
+{
+}
+
+void GObject::finalize()
+{
+}

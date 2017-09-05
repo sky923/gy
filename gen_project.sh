@@ -10,6 +10,8 @@ fi
 
 cd build
 
+rm CMakeCache.txt
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
 cmake -G Xcode ../
 else

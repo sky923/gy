@@ -20,6 +20,7 @@ public:
 	bool IsActivated() const;
 private:
 	void initialize();
+	void finalize();
 
 };
 

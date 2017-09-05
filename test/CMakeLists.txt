@@ -33,6 +33,9 @@ file(
 # add for making executable
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+# set start-up project
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+
 # make a group in an IDE
 foreach(CUR_FILE in items ${SOURCE_FILES})
 	get_filename_component(CUR_FILE_PATH ${CUR_FILE} PATH)

@@ -11,12 +11,10 @@ protected:
 public:
 	virtual ~GApplication();
 
-private:
-	result_t initialize();
 protected:
-	virtual result_t onPreInitialize();
-	virtual result_t onInitialize();
-	virtual result_t onPostInitialize();
+	virtual result_t onPreInitialize() override;
+	virtual result_t onInitialize() override;
+	virtual result_t onPostInitialize() override;
 	
 protected:
 	friend result_t startApplication(std::shared_ptr<GApplication>&&);
@@ -24,12 +22,10 @@ protected:
 private:
 	result_t onExecute();
 	
-private:
-	result_t finalize();
 protected:
-	virtual result_t onPreFinalize();
-	virtual result_t onFinalize();
-	virtual result_t onPostFinalize();
+	virtual result_t onPreFinalize() override;
+	virtual result_t onFinalize() override;
+	virtual result_t onPostFinalize() override;
 
 public:
 	static std::shared_ptr<GApplication> get();

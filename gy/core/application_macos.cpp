@@ -8,7 +8,7 @@ result_t GApplication::onPostInitialize() { return GY_SUCCESS; }
 
 result_t GApplication::onExecute()
 {
-	getObjectBase(getId());
+	getObject(getId());
 	return GY_SUCCESS;
 }
 

@@ -7,6 +7,19 @@
 #include <cassert>
 #include <list>
 
+// 생성
+// 1. create
+// 1. operator new
+// 2. initialize 리스트에 등록
+// 3. flush initialize 호출 시 생성된 순서대로 initialize멤버 호출
+// 4. bIsInitialize가 true이면 해당 GObject를 실행(execute)한다
+
+// 해제
+// 1. destroy
+// 1. operator delete
+// 2. finalize 리스트에 등록 (단, immediatelyDestroy함수 호출 시에는 등록하지 않고, 호출 시점 바로 제거하도록 한다)
+// 3. flush finalize 호출 시 생성된 순서대로 finalize멤버 호출
+// 4. bIsFinialize가 true일 경우 메모리에서 해제(::delete)
 
 class CObjectIdGenerator
 {

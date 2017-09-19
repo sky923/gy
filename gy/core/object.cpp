@@ -71,8 +71,8 @@ protected:
 	std::unordered_map<identity_t, GObject*> staticAllocatedObjectMapById;
 	std::vector<GObject*> objectVector;
 	
-	std::list<GObject*> objectForInitializingVector;
-	std::list<GObject*> objectForFinalizingVector;
+	std::list<GObject*> objectForInitializingList;
+	std::list<GObject*> objectForFinalizingList;
 };
 
 GObject::GObject()
@@ -102,7 +102,7 @@ GObject::GObject()
 		refContainer.objectMapById.insert({Id, this});
 	}
 	
-	refContainer.objectForInitializingVector.push_back(this);
+	refContainer.objectForInitializingList.push_back(this);
 }
 
 GObject::~GObject()
@@ -169,10 +169,13 @@ void *GObject::operator new(size_t size)
 
 void GObject::operator delete(void* ptr)
 {
+	auto& refContainer = CObjectReferenceContainer::get();
+	
 	auto objectForDeleting = static_cast<GObject*>(ptr);
 	if (objectForDeleting)
 	{
 		objectForDeleting->bIsReservedDestruction = true;
+		refContainer.objectForFinalizingList.push_back(objectForDeleting);
 	}
 	else
 	{
@@ -265,10 +268,14 @@ result_t GObject::initialize()
 
 void GObject::processInitialization()
 {
-	findObject([](GObject* Object)
+	auto& refContainer = CObjectReferenceContainer::get();
+	
+	for (auto& curObject : refContainer.objectForInitializingList)
 	{
-		return false;
-	});
+		curObject->initialize();
+	}
+	
+	refContainer.objectForFinalizingList.clear();
 }
 
 result_t GObject::onPreInitialize() { return GY_SUCCESS; }
@@ -302,6 +309,14 @@ result_t GObject::finalize()
 
 void GObject::processFinalization()
 {
+	auto& refContainer = CObjectReferenceContainer::get();
+	
+	for (auto& curObject : refContainer.objectForFinalizingList)
+	{
+		curObject->finalize();
+	}
+	
+	refContainer.objectForFinalizingList.clear();
 }
 
 result_t GObject::onPreFinalize() { return GY_SUCCESS; }

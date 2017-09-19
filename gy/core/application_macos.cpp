@@ -6,7 +6,7 @@ result_t GApplication::onPreInitialize() { return GY_SUCCESS; }
 result_t GApplication::onInitialize() { return GY_SUCCESS; }
 result_t GApplication::onPostInitialize() { return GY_SUCCESS; }
 
-result_t GApplication::onExecute()
+result_t GApplication::onExecuteEventDispatcher()
 {
 	getObject(getId());
 	return GY_SUCCESS;

@@ -2,6 +2,7 @@
 #define __gy_core_application_h__
 
 #include <memory>
+#include <thread>
 #include "application_entrypoint.h"
 
 class GApplication : public GObject
@@ -18,10 +19,11 @@ protected:
 	
 protected:
 	friend result_t startApplication(std::shared_ptr<GApplication>&&);
-	result_t execute();
+	result_t executeEventDispatcherThread();
 private:
+	result_t onExecuteEventDispatcher();
 	result_t onExecute();
-	
+
 protected:
 	virtual result_t onPreFinalize() override;
 	virtual result_t onFinalize() override;
@@ -29,6 +31,12 @@ protected:
 
 public:
 	static std::shared_ptr<GApplication> get();
+
+protected:
+	// main thread but just for dispatch system message and has low priority
+	std::thread::id mainThreadId;
+	// user thread using mainly and has processing almost every jobs
+	std::thread::id eventDispatchThreadId;
 };
 
 result_t startApplication(std::shared_ptr<GApplication>&&);

@@ -1,5 +1,7 @@
 #include "application.h"
 #include <cassert>
+#include <thread>
+#include <iostream>
 
 namespace gy
 {
@@ -10,11 +12,13 @@ result_t startApplication(std::shared_ptr<GApplication>&& newApplicaion)
 {
 	gy::appInstance = newApplicaion;
 
-	if (gy::appInstance && gy::appInstance->IsEnabledTick())
+	if (gy::appInstance)
 	{
+		gy::appInstance->mainThreadId = std::this_thread::get_id();
+		
 		GApplication::processInitialization();
 		
-		return gy::appInstance->execute();
+		return gy::appInstance->executeEventDispatcherThread();
 	}
 
 	return GY_FAIL;
@@ -36,15 +40,39 @@ std::shared_ptr<GApplication> GApplication::get()
 	return gy::appInstance;
 }
 
-result_t GApplication::execute()
+result_t GApplication::executeEventDispatcherThread()
 {
-	result_t result = GY_FAIL;
+	std::cout << "mainThreadId = " << mainThreadId << std::endl;
 
-	result = onExecute();
-	if (result != GY_SUCCESS)
+	/*
+	std::thread sub([&tryFinishApp]()
 	{
-		return result;
-	}
+		//int i = 0;
+		MSG msg = {};
+		while (msg.message != WM_QUIT)
+		{
+			if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessageW(&msg);
+			}
 
-	return result;
+			SwitchToThread();
+		}
+
+		tryFinishApp = true;
+	});
+	*/
+
+
+	std::thread eventDispatchThread([&]() 
+	{
+		//@todo:
+		onExecuteEventDispatcher();
+	});
+	eventDispatchThreadId = eventDispatchThread.get_id();
+	std::cout << "eventDispatchThreadId = " << eventDispatchThreadId << std::endl;
+
+
+	return onExecute();
 }

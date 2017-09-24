@@ -17,7 +17,7 @@
 @implementation GNSApplication
 -(void) sendEvent:(NSEvent *)event
 {
-	if ([event type] == NSKeyUp && ([event modifierFlags] & NSCommandKeyMask))
+	if ([event type] == NSEventTypeKeyUp && ([event modifierFlags] & NSEventModifierFlagCommand))
 	{
 		[[self keyWindow] sendEvent:event];
 	}
@@ -84,9 +84,6 @@
 
 void createMenu()
 {
-	if (NSApp == nil)
-		return;
-	
 	// creation default menu bar
 	NSMenu *menubar = [[NSMenu alloc] init];
 	NSMenuItem *appMenuItem = [[NSMenuItem alloc] init];

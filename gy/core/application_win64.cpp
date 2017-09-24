@@ -14,11 +14,31 @@ result_t GApplication::onPostInitialize() { return GY_SUCCESS; }
 
 result_t GApplication::onExecuteEventDispatcher() 
 {
-	while (1)
+	MSG msg = {};
+	while (msg.message != WM_QUIT)
 	{
+		if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessageW(&msg);
+		}
+		
+		SwitchToThread();
+		
+		if (false == bHasStartedEventDispatch)
+			bHasStartedEventDispatch = true;
 	}
 
 	return GY_SUCCESS; 
+}
+
+result_t GApplication::onExecute()
+{
+	while (!bTryToExit)
+	{
+	}
+	
+	return GY_SUCCESS;
 }
 
 result_t GApplication::onPreFinalize() { return GY_SUCCESS; }

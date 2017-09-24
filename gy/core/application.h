@@ -19,9 +19,8 @@ protected:
 	
 protected:
 	friend result_t startApplication(std::shared_ptr<GApplication>&&);
-	result_t executeEventDispatcherThread();
+	virtual result_t execute() final;
 private:
-	result_t onExecuteEventDispatcher();
 	result_t onExecute();
 
 protected:
@@ -33,6 +32,8 @@ public:
 	static std::shared_ptr<GApplication> get();
 
 protected:
+	std::atomic<bool> bHasStartedEventDispatch;
+	std::atomic<bool> bTryToExit;
 	// main thread but just for dispatch system message and has low priority
 	std::thread::id mainThreadId;
 	// user thread using mainly and has processing almost every jobs

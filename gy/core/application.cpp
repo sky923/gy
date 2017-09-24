@@ -18,13 +18,15 @@ result_t startApplication(std::shared_ptr<GApplication>&& newApplicaion)
 		
 		GApplication::processInitialization();
 		
-		return gy::appInstance->executeEventDispatcherThread();
+		return gy::appInstance->execute();
 	}
 
 	return GY_FAIL;
 }
 
 GApplication::GApplication()
+: bHasStartedEventDispatch(false)
+, bTryToExit(false)
 {
 	SetEnabledTick(true);
 	
@@ -40,39 +42,10 @@ std::shared_ptr<GApplication> GApplication::get()
 	return gy::appInstance;
 }
 
-result_t GApplication::executeEventDispatcherThread()
+result_t GApplication::execute()
 {
 	std::cout << "mainThreadId = " << mainThreadId << std::endl;
-
-	/*
-	std::thread sub([&tryFinishApp]()
-	{
-		//int i = 0;
-		MSG msg = {};
-		while (msg.message != WM_QUIT)
-		{
-			if (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessageW(&msg);
-			}
-
-			SwitchToThread();
-		}
-
-		tryFinishApp = true;
-	});
-	*/
-
-
-	std::thread eventDispatchThread([&]() 
-	{
-		//@todo:
-		onExecuteEventDispatcher();
-	});
-	eventDispatchThreadId = eventDispatchThread.get_id();
-	std::cout << "eventDispatchThreadId = " << eventDispatchThreadId << std::endl;
-
-
+	
 	return onExecute();
 }
+

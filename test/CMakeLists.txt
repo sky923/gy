@@ -46,8 +46,37 @@ endforeach()
 # compiler features
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_range_for)
 
+if (APPLE)
+	find_library(CARBON_LIB Carbon)
+	find_library(IOKIT_LIB IOKit)
+	find_library(FORCEFEEDBACK_LIB ForceFeedback)
+	find_library(COCOA_LIB Cocoa)
+	find_library(AUDIOUNIT_LIB AudioUnit)
+	find_library(COREAUDIO_LIB CoreAudio)
+	find_library(OPENGL_LIB OpenGL)
+	find_library(COREFOUNDATION_LIB CoreFoundation)
+
+	set(FRAMEWORKS
+		${CARBON_LIB}
+		${IOKIT_LIB}
+		${FORCEFEEDBACK_LIB}
+		${COCOA_LIB}
+		${AUDIOUNIT_LIB}
+		${COREAUDIO_LIB}
+		${OPENGL_LIB}
+		${COREFOUNDATION_LIB}
+	)
+
+	set_target_properties(
+	    ${PROJECT_NAME}
+	    PROPERTIES
+	    MACOSX_BUNDLE_INFO_PLIST
+	    "${CMAKE_CURRENT_LIST_DIR}/plist.in"
+	)
+endif()
+
 # link libraries
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC gy)
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${FRAMEWORKS} gy)
 
 # include
 target_include_directories(
@@ -67,3 +96,4 @@ if (MSVC)
 	SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 	SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 endif()
+

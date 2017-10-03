@@ -46,6 +46,12 @@ endforeach()
 # compiler features
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_range_for)
 
+#set(
+#	RESOURCE_FILES
+#	resourcefile.txt
+#	appresourcedir/appres.txt
+#)
+
 if (APPLE)
 	find_library(CARBON_LIB Carbon)
 	find_library(IOKIT_LIB IOKit)
@@ -67,12 +73,22 @@ if (APPLE)
 		${COREFOUNDATION_LIB}
 	)
 
+# https://cmake.org/cmake/help/v3.5/prop_tgt/RESOURCE.html
 	set_target_properties(
-	    ${PROJECT_NAME}
-	    PROPERTIES
-	    MACOSX_BUNDLE_INFO_PLIST
-	    "${CMAKE_CURRENT_LIST_DIR}/plist.in"
+		${PROJECT_NAME}
+		PROPERTIES
+		MACOSX_BUNDLE TRUE
+		MACOSX_FRAMEWORK_IDENTIFIER "org.gy.${PROJECT_NAME}"
+		RESOURCE ""
+#""${RESOURCE_FILES}"
 	)
+
+#	set_target_properties(
+#	    ${PROJECT_NAME}
+#	    PROPERTIES
+#	    MACOSX_BUNDLE_INFO_PLIST
+#	    "${PROJECT_NAME}/info.plist.in"
+#	)
 endif()
 
 # link libraries
